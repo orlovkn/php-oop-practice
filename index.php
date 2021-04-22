@@ -3,14 +3,7 @@ declare(strict_types=1);
 
 require __DIR__.'/vendor/autoload.php';
 
-$data = [
-    'one' => 'uno',
-    'two' => 'dois'
-];
-//$json = new \App\Format\JSON();
-$xml = new \App\Format\XML();
+//print_r("Simple Service Container\n\n");
 
-$serializer = new \App\Serializer($xml);
-$serializeData= $serializer->serialize($data);
-
-print_r($serializeData);
+$kernel = (new \App\Kernel())->boot();
+$kernel->handleRequest();
