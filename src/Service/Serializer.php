@@ -8,7 +8,8 @@ class Serializer
 {
     private FormatInterface $format;
 
-    public function __construct(FormatInterface $format) {
+    public function __construct(FormatInterface $format)
+    {
         $this->format = $format;
     }
 
