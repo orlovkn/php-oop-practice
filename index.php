@@ -1,75 +1,68 @@
 <?php
 declare(strict_types=1);
 
+use App\Shape as Shape;
+
 require __DIR__.'/vendor/autoload.php';
 
-//$adapter = new \App\AjaxAdapter();
-$adapter = new \App\NodeAdapter();
-$requester = new \App\HttpRequester($adapter);
-
-$requester->fetch("https://github.com/jupeter/clean-code-php");
-
-print_r($requester);
-
-
-/*
-abstract class Adapter
+function printArea(Shape $shape)
 {
-    protected $name;
+    echo sprintf('%s has area %d.', get_class($shape), $shape->getArea()).PHP_EOL;
+}
 
-    public function getName(): string
+$shapes = [new \App\Rectangle(2, 5), new \App\Square(5), new \App\Rectangle(5, 4)];
+
+foreach ($shapes as $shape) {
+    printArea($shape);
+}
+
+
+/*class Rectangle
+{
+    protected $width = 0;
+
+    protected $height = 0;
+
+    public function setWidth(int $width): void
     {
-        return $this->name;
+        $this->width = $width;
+    }
+
+    public function setHeight(int $height): void
+    {
+        $this->height = $height;
+    }
+
+    public function getArea(): int
+    {
+        return $this->width * $this->height;
     }
 }
 
-class AjaxAdapter extends Adapter
+class Square extends Rectangle
 {
-    public function __construct()
+    public function setWidth(int $width): void
     {
-        parent::__construct();
+        $this->width = $this->height = $width;
+    }
 
-        $this->name = 'ajaxAdapter';
+    public function setHeight(int $height): void
+    {
+        $this->width = $this->height = $height;
     }
 }
 
-class NodeAdapter extends Adapter
+function printArea(Rectangle $rectangle): void
 {
-    public function __construct()
-    {
-        parent::__construct();
+    $rectangle->setWidth(4);
+    $rectangle->setHeight(5);
 
-        $this->name = 'nodeAdapter';
-    }
+    // BAD: Will return 25 for Square. Should be 20.
+    echo sprintf('%s has area %d.', get_class($rectangle), $rectangle->getArea()) . PHP_EOL;
 }
 
-class HttpRequester
-{
-    private $adapter;
+$rectangles = [new Rectangle(), new Square()];
 
-    public function __construct(Adapter $adapter)
-    {
-        $this->adapter = $adapter;
-    }
-
-    public function fetch(string $url): Promise
-    {
-        $adapterName = $this->adapter->getName();
-
-        if ($adapterName === 'ajaxAdapter') {
-            return $this->makeAjaxCall($url);
-        } elseif ($adapterName === 'httpNodeAdapter') {
-            return $this->makeHttpCall($url);
-        }
-    }
-
-    private function makeAjaxCall(string $url): Promise
-    {
-        // request and return promise
-    }
-
-    private function makeHttpCall(string $url): Promise
-    {
-        // request and return promise
-    }
+foreach ($rectangles as $rectangle) {
+    printArea($rectangle);
 }*/
